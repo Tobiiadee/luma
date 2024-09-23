@@ -1,3 +1,5 @@
+/** @format */
+
 import type { Config } from "tailwindcss";
 
 const config = {
@@ -7,6 +9,8 @@ const config = {
     "./components/**/*.{ts,tsx}",
     "./app/**/*.{ts,tsx}",
     "./src/**/*.{ts,tsx}",
+    "./modules/**/*.{ts,tsx}",
+    "./layout/**/*.{ts,tsx}",
   ],
   prefix: "",
   theme: {
@@ -18,6 +22,9 @@ const config = {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ["var(--font-sans)"]
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
