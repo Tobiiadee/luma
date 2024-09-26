@@ -10,9 +10,9 @@ export default function HomeLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className='container mx-auto md:pl-16 md:pr-16 relative min-w-screen'>
+    <div className='container mx-auto pb-52 lg:px-16 relative min-w-screen'>
       <Header />
-      {children}
+      <div className='mt-20'>{children}</div>
       <Footer />
     </div>
   );

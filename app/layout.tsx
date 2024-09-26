@@ -8,8 +8,8 @@ import { hasEnvVars } from "@/utils/supabase/check-env-vars";
 import { GeistSans } from "geist/font/sans";
 import { ThemeProvider } from "next-themes";
 import Link from "next/link";
-import '@fontsource-variable/inter';
-import '@fontsource-variable/nunito';
+import "@fontsource-variable/inter";
+import "@fontsource-variable/nunito";
 import "./globals.css";
 
 const defaultUrl = process.env.VERCEL_URL
@@ -36,6 +36,7 @@ export default function RootLayout({
           defaultTheme='light'
           enableSystem
           disableTransitionOnChange>
+          <div id='overlay' />
           {children}
         </ThemeProvider>
       </body>
