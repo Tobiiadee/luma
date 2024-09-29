@@ -9,19 +9,81 @@ import { Minus, Plus, Trash } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
 
+const cartItems = [
+  {
+    id: 1,
+    image: "books.jpg",
+    category: "Books",
+    title: "The Book",
+    type: "Comedy",
+    color: "Green",
+    oldPrice: "$10",
+    price: "$5.99",
+    count: 4,
+  },
+  {
+    id: 2,
+    image: "fashion.jpg",
+    category: "Fashion",
+    title: "D&G",
+    type: "null",
+    color: "Red",
+    oldPrice: "$300",
+    price: "$259.99",
+    count: 2,
+  },
+  {
+    id: 3,
+    image: "sneakers.jpg",
+    category: "Sneakers",
+    title: "Air Jordan",
+    type: "Sports",
+    color: "Blue",
+    oldPrice: "$200",
+    price: "$159",
+    count: 1,
+  },
+  {
+    id: 4,
+    image: "furniture.jpg",
+    title: "Sofa",
+    category: "Furniture",
+    type: "null",
+    color: "Green",
+    oldPrice: "$400",
+    price: "$329.99",
+    count: 1,
+  },
+];
+
 export default function CartItems() {
+
+  const cartTotal = cartItems.reduce((acc, item) => acc + Number(item.price.replace("$", "")), 0);
+  const noOfItems = cartItems.length;
+
   return (
-    <div className='grid grid-cols-1 md:grid-cols-3 gap-4 w-full'>
+    <div className='grid grid-cols-1 lg:grid-cols-3 lg:gap-4 w-full'>
       <div className='col-span-2 flex flex-col space-y-6'>
         <CartSelectAll />
         <div className='flex flex-col space-y-6'>
-          {Array.from({ length: 4 }).map((_, i) => (
-            <CartItem key={i} />
+          {cartItems.map((item) => (
+            <CartItem
+              key={item.id}
+              category={item.category}
+              imageSrc={item.image}
+              title={item.title}
+              type={item.type}
+              color={item.color}
+              oldPrice={item.oldPrice}
+              price={item.price}
+              itemCount={item.count}
+              id={item.id}
+            />
           ))}
         </div>
       </div>
 
-      <CartTotal />
+      <CartTotal cartTotal={cartTotal} items={noOfItems} />
     </div>
   );
 }
@@ -45,8 +107,30 @@ function CartSelectAll() {
   );
 }
 
-function CartItem() {
-  const [count, setCount] = useState(1);
+interface CartItemProps {
+  category: string;
+  imageSrc: string;
+  title: string;
+  type: string;
+  color: string;
+  oldPrice: string;
+  price: string;
+  itemCount: number;
+  id: number;
+}
+
+function CartItem({
+  title,
+  category,
+  imageSrc,
+  type,
+  color,
+  oldPrice,
+  price,
+  itemCount,
+  id,
+}: CartItemProps) {
+  const [count, setCount] = useState(itemCount);
 
   const addCountHandler = () => {
     if (count === 7) return;
@@ -58,18 +142,18 @@ function CartItem() {
   };
 
   return (
-    <div className='border p-4 flex justify-between rounded-lg w-full'>
+    <div className='border p-4 flex flex-col space-y-4 md:space-y-0 md:flex-row justify-between rounded-lg w-full'>
       <div>
-        <div className='flex  items-start space-x-2'>
-          <Checkbox id='title' />
+        <div className='flex items-start space-x-2'>
+          <Checkbox id={title} />
           <label
-            htmlFor='title'
+            htmlFor={title}
             className='flex items-start space-x-4 cursor-pointer'>
             <div>
               <div className='w-16 aspect-square relative flex items-center justify-center overflow-hidden rounded'>
                 <Image
-                  src={"/images/shop.jpg"}
-                  alt=''
+                  src={`/images/${imageSrc}`}
+                  alt={title}
                   fill
                   className='object-cover'
                 />
@@ -82,17 +166,17 @@ function CartItem() {
                   <Text
                     variant={"p"}
                     className='font-semibold text-background/70 text-[12px]'>
-                    Category
+                    {category}
                   </Text>
                 </div>
 
                 <div className='flex flex-col space-y-4'>
                   <Text variant={"p"} className='font-bold'>
-                    Watches
+                    {title}
                   </Text>
                 </div>
 
-                <div className='flex flex-col md:flex-row items-center md:space-x-2'>
+                <div className='flex items-center space-x-2'>
                   <div className={"flex items-center space-x-1"}>
                     <Text
                       variant={"p"}
@@ -102,7 +186,7 @@ function CartItem() {
                     <Text
                       variant={"p"}
                       className='text-background text-[12px] font-semibold'>
-                      Stereo
+                      {type}
                     </Text>
                   </div>
 
@@ -115,7 +199,7 @@ function CartItem() {
                     <Text
                       variant={"p"}
                       className='text-background text-[12px] font-semibold'>
-                      Red
+                      {color}
                     </Text>
                   </div>
                 </div>
@@ -125,17 +209,18 @@ function CartItem() {
         </div>
       </div>
 
-      <div className='self-center flex flex-col justify-end space-y-2'>
-        <div className='flex flex-col items-end space-y-0.5'>
+      <div className='md:self-center flex md:flex-col justify-between md:justify-end md:space-y-2'>
+        <div className='flex flex-col md:items-end space-y-0.5'>
           <Text
             variant={"p"}
             className='text-[12px] line-through font-bold text-background/50'>
-            $100
+            {oldPrice}
           </Text>
           <Text variant={"p"} className='font-bold self-end'>
-            $29.99
+            {price}
           </Text>
         </div>
+
         <div className='flex space-x-4 items-center'>
           <Button
             variant={"ghost"}
@@ -162,9 +247,9 @@ function CartItem() {
   );
 }
 
-function CartTotal() {
+function CartTotal( { cartTotal, items }: { cartTotal: number, items: number }) {
   return (
-    <div className='border p-4 flex flex-col rounded-lg w-full min-h-64 md:h-[50%] relative'>
+    <div className='border p-4 flex flex-col rounded-lg w-full min-h-64 md:h-[50%] mt-6 lg:mt-0 relative'>
       <Text variant={"h3"} className=''>
         Summary Order
       </Text>
@@ -174,7 +259,7 @@ function CartTotal() {
             SumTotal:
           </Text>
           <Text variant={"h5"} className=''>
-            $29.99
+            ${cartTotal}
           </Text>
         </div>
 
@@ -182,7 +267,7 @@ function CartTotal() {
           <Button className='w-full py-2 rounded-md bg-background hover:bg-background/90 text-foreground'>
             Buy Now (
             <span>
-              <Text variant={"p"}>04</Text>
+              <Text variant={"p"}>0{items}</Text>
             </span>
             )
           </Button>

@@ -1,6 +1,3 @@
-/** @format */
-
-// components/Modal.js
 import React from "react";
 import { createPortal } from "react-dom";
 import Backdrop from "./backdrop";
@@ -12,16 +9,21 @@ interface ModalProps {
 }
 
 const Modal = ({ isOpen, onClose, children }: ModalProps) => {
-  const portalElement = document.getElementById("overlay")!;
+  const portalElement = document.getElementById("overlay");
+
+  if (!portalElement) {
+    console.error("Overlay container not found.");
+    return null;
+  }
 
   return (
-    <div className='block'>
+    <>
       {createPortal(
         <Backdrop isOpen={isOpen} closeModal={onClose} />,
         portalElement
       )}
-      {children}
-    </div>
+      {isOpen && <div className="modal-content">{children}</div>}
+    </>
   );
 };
 

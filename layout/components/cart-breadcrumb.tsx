@@ -1,6 +1,5 @@
 /** @format */
 
-
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -9,6 +8,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/modules/common/ui/breadcrumb";
+import { Text } from "@/modules/common/ui/text";
 import { SlashIcon } from "@radix-ui/react-icons";
 
 export function CartBreadcrumb() {
@@ -16,13 +16,15 @@ export function CartBreadcrumb() {
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink href='/'>Home</BreadcrumbLink>
+          <BreadcrumbLink href='/'>
+            <Text variant={"p"}>Home</Text>
+          </BreadcrumbLink>
         </BreadcrumbItem>
-        <BreadcrumbSeparator>
-          <SlashIcon />
-        </BreadcrumbSeparator>
+        <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbPage>Cart</BreadcrumbPage>
+          <BreadcrumbPage>
+            <Text variant={"p"}>Cart</Text>
+          </BreadcrumbPage>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>

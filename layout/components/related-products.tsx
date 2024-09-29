@@ -8,7 +8,7 @@ import { Text } from "@/modules/common/ui/text";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import React from "react";
 
-export default function BestDeals() {
+export default function RelatedProducts() {
   const { showLeft, scrollLeft, scrollRight, showRight, scrollRef } =
     useScroll();
 
@@ -17,12 +17,14 @@ export default function BestDeals() {
   return (
     <div className='flex flex-col space-y-6 relative'>
       <div className='flex justify-between items-center'>
-        <Text variant={"h2"} className='text-background'>
-          Today's Best Deals
+        <Text variant={"h3"} className='text-background'>
+          Similar Items You Might Like
         </Text>
 
         <Button variant={"link"}>
-          <Text variant={"p"} className="font-medium text-background">View All</Text>
+          <Text variant={"p"} className='font-medium text-background'>
+            View All
+          </Text>
         </Button>
       </div>
 
@@ -44,7 +46,7 @@ export default function BestDeals() {
         <div
           id='hide-scrollbar'
           className='flex w-max space-x-4 items-center overflow-x-scroll py-1'>
-          {Array.from({ length: 8 }).map((_, index) => (
+          {Array.from({ length: 5 }).map((_, index) => (
             <ProductCard key={index} />
           ))}
         </div>

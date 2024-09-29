@@ -2,6 +2,7 @@
 
 import { Text } from "@/modules/common/ui/text";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 export const categoriesInfo = [
@@ -40,7 +41,7 @@ function CategoryCard({
   image: string;
 }) {
   return (
-    <div className='relative w-full lg:w-56 aspect-[2/2.7] rounded-lg overflow-hidden group cursor-pointer'>
+    <Link href={`/category/${category}`} className='relative w-full lg:w-56 aspect-[2/2.7] rounded-lg overflow-hidden group cursor-pointer'>
       <div className='absolute top-0 left-0 w-full h-full -z-10 group-hover:scale-110 transition duration-300'>
         <Image
           src={`/images/${image}`}
@@ -55,6 +56,6 @@ function CategoryCard({
           {category}
         </Text>
       </div>
-    </div>
+    </Link>
   );
 }

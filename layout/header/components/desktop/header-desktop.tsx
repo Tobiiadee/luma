@@ -1,7 +1,6 @@
 /** @format */
 "use client";
 
-import { Text } from "@/modules/common/ui/text";
 import React, { useEffect, useRef, useState } from "react";
 
 import { Button } from "@/modules/common/ui/button";
@@ -9,7 +8,6 @@ import { Search } from "lucide-react";
 import useHeaderSearch from "@/modules/store/header-search";
 import { motion } from "framer-motion";
 import Modal from "@/modules/common/ui/modal";
-import Link from "next/link";
 import SearchInputButton from "../search-input-button";
 import AccountDropdown from "../account-dropdown";
 import CartSheet from "../cart-sheet";
@@ -53,7 +51,7 @@ export function ProductSearch() {
   };
 
   return (
-    <div className='flex justify-end relative'>
+    <div className='flex justify-end sm:relative'>
       <motion.div
         initial={{ width: "150px", originX: 0 }} // Initial width
         animate={{ width: isSearch ? "50vw" : "150px" }} // Toggle width
@@ -65,7 +63,9 @@ export function ProductSearch() {
           className='border-none w-full outline-none bg-transparent text-sm placeholder:text-muted-foreground placeholder:text-sm placeholder:font-normal '
           placeholder='Search product...'
         />
-        <Search size={18} strokeWidth={2} className='text-muted-foreground' />
+        <Button variant={"ghost"} size={"icon"} className="rounded-full bg-background/20">
+          <Search size={18} strokeWidth={2} className='text-muted-foreground' />
+        </Button>
       </motion.div>
 
       <Modal isOpen={isSearch} onClose={closeModalHandler}>

@@ -24,7 +24,9 @@ export default function CartSheet() {
     <Sheet>
       <SheetTrigger className='flex items-center space-x-2 hover:bg-transparent hover:text-background'>
         <ShoppingCart size={20} />
-        <Text variant={"p"} className="hidden md:block">Cart</Text>
+        <Text variant={"p"} className='hidden md:block'>
+          Cart
+        </Text>
       </SheetTrigger>
       <SheetContent className='flex flex-col w-full'>
         <SheetHeader>
@@ -43,7 +45,7 @@ export default function CartSheet() {
             <SheetClose
               onClick={() => push("/cart")}
               className='w-[90%] py-2 rounded-md bg-background hover:bg-background/90 text-foreground'>
-              View Cart
+              <Text variant={"p"}>View Cart</Text>
             </SheetClose>
           </div>
         </SheetFooter>

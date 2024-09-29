@@ -17,7 +17,7 @@ export default function SearchInputButton() {
       onClick={() => setIsSearch(true)}
       variant={"ghost"}
       className='hover:bg-transparent'>
-      <div className='flex items-center md:w-[25vw] rounded-2xl px-3 py-1.5 space-x-1 bg-accent/10 focus-within:outline-none focus-within:ring-1 focus-within:ring-ring focus-within:ring-offset-2'>
+      <div className='flex items-center sm:w-[40vw] lg:w-[25vw] rounded-2xl px-3 py-1.5 space-x-1 bg-accent/10 focus-within:outline-none focus-within:ring-1 focus-within:ring-ring focus-within:ring-offset-2'>
         {/* Div that looks like an input */}
         <div className='border-none w-full grid place-items-start outline-none bg-transparent text-sm text-muted-foreground placeholder:text-[12px] placeholder:font-normal'>
           <Text variant={"p"} className="text-[12px]"> Search product...</Text>

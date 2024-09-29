@@ -6,6 +6,7 @@ import { Text } from "@/modules/common/ui/text";
 import React from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import StarRating from "@/modules/common/components/star-rating";
 
 export default function ProductResultSearch() {
   return (
@@ -13,12 +14,15 @@ export default function ProductResultSearch() {
       initial={{ opacity: 0, y: 100 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
-      className='absolute top-[150%] -left-12 md:left-0 w-[80vw] sm:w-[60vw] lg:w-[40vw] rounded-lg flex flex-col space-y-2 bg-foreground shadow-md px-4 py-2 z-50'>
-      <Text variant={"p"} className='font-semibold'>
-        Popular Categories
-      </Text>
+      className='absolute top-[150%] left-0 sm:-left-14 lg:left-0 w-screen sm:w-[60vw] lg:w-[40vw] rounded-lg flex flex-col space-y-2 bg-foreground shadow-md py-2 z-50'>
+      <div className='px-4'>
+        <Text variant={"p"} className='font-semibold'>
+          Results
+        </Text>
+      </div>
+
       <Separator />
-      <div className='flex flex-col space-y-3 divide-y'>
+      <div className='flex flex-col space-y-1'>
         {Array.from({ length: 6 }).map((_, i) => (
           <ProductResultSearchItem key={i} />
         ))}
@@ -29,7 +33,7 @@ export default function ProductResultSearch() {
 
 function ProductResultSearchItem() {
   return (
-    <div className='relative w-full py-1.5 flex items-center justify-between space-x-2 cursor-pointer'>
+    <div className='relative w-full py-1.5 flex items-center justify-between space-x-2 hover:bg-background/10 px-4 cursor-pointer'>
       <div className='flex items-center space-x-4'>
         <div>
           <div className='w-8 aspect-square relative flex items-center justify-center overflow-hidden rounded'>
@@ -45,6 +49,11 @@ function ProductResultSearchItem() {
         <Text variant={"p"} className='font-medium'>
           Wireless Earbugs
         </Text>
+      </div>
+
+      <div className="flex items-center space-x-2">
+        <StarRating rating={4.5} size={15}/>
+        <Text variant={"p"}>(4.5)</Text>
       </div>
 
       <Text variant={"p"} className='font-medium'>
