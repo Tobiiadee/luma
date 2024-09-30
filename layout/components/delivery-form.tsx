@@ -98,7 +98,7 @@ export function DeliveryForm() {
             type='submit'
             variant={"default"}
             className='bg-background text-foreground hover:bg-background/90 mt-8'>
-            <Text variant={"p"}>Checkout</Text>
+            <Text variant={"p"}>Submit</Text>
           </Button>
         </div>
       </form>

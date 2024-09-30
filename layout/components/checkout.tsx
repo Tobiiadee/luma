@@ -44,11 +44,11 @@ export default function Checkout() {
 
 function OrderSummary() {
   return (
-    <div className='border p-4 rounded-lg flex flex-col space-y-4 mt-10 lg:mt-0'>
+    <div className='lg:border lg:p-4 rounded-lg flex flex-col space-y-4 mt-10 lg:mt-0'>
       <Text variant={"h3"} className=''>
         Order Summary
       </Text>
-      <div className='flex flex-col space-y-2'>
+      <div className='flex flex-col space-y-3 lg:space-y-2'>
         <Text variant={"h5"} className='font-semibold'>
           Paymant Details
         </Text>
