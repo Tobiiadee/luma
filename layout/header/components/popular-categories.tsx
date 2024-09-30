@@ -17,7 +17,7 @@ export default function PopularCategories() {
       initial={{ opacity: 0, y: 100 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: "easeInOut", delay: 0.8 }}
-      className='absolute top-[150%] left-0 sm:-left-14 lg:left-0 w-screen sm:w-[60vw] lg:w-[40vw] rounded-lg flex flex-col space-y-2 bg-foreground shadow-md px-4 pt-2 pb-4 z-50'>
+      className='absolute top-[115%] sm:top-[150%] left-0 sm:-left-14 lg:left-0 w-screen sm:w-[60vw] lg:w-[40vw] rounded-lg flex flex-col space-y-2 bg-foreground shadow-md px-4 pt-2 pb-4 z-50'>
       <Text variant={"p"} className='font-semibold'>
         Popular Categories
       </Text>

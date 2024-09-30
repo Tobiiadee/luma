@@ -14,7 +14,7 @@ export default function ProductResultSearch() {
       initial={{ opacity: 0, y: 100 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
-      className='absolute top-[150%] left-0 sm:-left-14 lg:left-0 w-screen sm:w-[60vw] lg:w-[40vw] rounded-lg flex flex-col space-y-2 bg-foreground shadow-md py-2 z-50'>
+      className='absolute top-[115%] sm:top-[150%] left-0 sm:-left-14 lg:left-0 w-screen sm:w-[60vw] lg:w-[40vw] rounded-lg flex flex-col space-y-2 bg-foreground shadow-md py-2 z-50'>
       <div className='px-4'>
         <Text variant={"p"} className='font-semibold'>
           Results
