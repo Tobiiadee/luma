@@ -14,7 +14,7 @@ export default function ProductCard() {
 
   return (
     <>
-      <div className='w-max max-w-[13rem] h-max shadow-lg rounded-lg p-2 overflow-hidden'>
+      <div className='w-full sm:max-w-[13rem] h-max shadow-md rounded-lg p-2 overflow-hidden'>
         <div
           onClick={() => push("/products/1")}
           className='relative w-full aspect-square active:scale-95 transition rounded-md overflow-hidden'>

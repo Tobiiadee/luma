@@ -1,4 +1,3 @@
-/** @format */
 "use client";
 
 import { Separator } from "@/modules/common/ui/separator";
@@ -14,7 +13,7 @@ export default function ProductResultSearch() {
       initial={{ opacity: 0, y: 100 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
-      className='absolute top-[115%] sm:top-[150%] left-0 sm:-left-14 lg:left-0 w-screen sm:w-[60vw] lg:w-[40vw] rounded-lg flex flex-col space-y-2 bg-foreground shadow-md py-2 z-50'>
+      className='absolute top-[110%] sm:top-[150%] left-0 sm:-left-14 lg:left-0 w-screen sm:w-[60vw] lg:w-[40vw] rounded-b-lg sm:rounded-lg flex flex-col space-y-2 bg-foreground shadow-md py-2 z-50'>
       <div className='px-4'>
         <Text variant={"p"} className='font-semibold'>
           Results
@@ -51,8 +50,8 @@ function ProductResultSearchItem() {
         </Text>
       </div>
 
-      <div className="flex items-center space-x-2">
-        <StarRating rating={4.5} size={15}/>
+      <div className='flex items-center space-x-2'>
+        <StarRating rating={4.5} size={15} />
         <Text variant={"p"}>(4.5)</Text>
       </div>
 

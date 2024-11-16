@@ -5,7 +5,7 @@ import useScroll from "@/hook/use-scroll";
 import ProductCard from "@/modules/common/components/product-card";
 import { Button } from "@/modules/common/ui/button";
 import { Text } from "@/modules/common/ui/text";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, MoveLeft, MoveRight } from "lucide-react";
 import React from "react";
 
 export default function BestDeals() {
@@ -20,44 +20,35 @@ export default function BestDeals() {
         <Text variant={"h2"} className='text-background'>
           Today's Best Deals
         </Text>
+        <div className='flex space-x-2 items-center'>
+          <Button
+            variant='default'
+            disabled={!showLeft}
+            className='py-0 px-2 max-h-3 rounded-sm bg-transparent text-background '
+            onClick={scrollLeft}>
+            <MoveLeft size={20} strokeWidth={1.5} />
+          </Button>
 
-        <Button variant={"link"}>
-          <Text variant={"p"} className="font-medium text-background">View All</Text>
-        </Button>
+          <Button
+            variant='default'
+            disabled={!showRight}
+            className='py-0 px-2 max-h-3 rounded-sm bg-transparent text-background '
+            onClick={scrollRight}>
+            <MoveRight size={20} strokeWidth={1.5} />
+          </Button>
+        </div>
       </div>
 
       <div
         ref={scrollRef}
         id='hide-scrollbar'
         className=' overflow-x-scroll group'>
-        <div className='absolute hidden top-0 -left-16 z-50 opacity-0 pb-16 h-full w-28 group-hover:opacity-100 md:flex justify-center items-center transition-opacity duration-700'>
-          {showLeft && (
-            <Button
-              variant='default'
-              className='py-6 px-1 rounded-full bg-background hover:bg-background/90 text-foreground'
-              onClick={scrollLeft}>
-              <ChevronLeft size={40} strokeWidth={1} />
-            </Button>
-          )}
-        </div>
-
         <div
           id='hide-scrollbar'
           className='flex w-max space-x-4 items-center overflow-x-scroll py-1'>
-          {Array.from({ length: 8 }).map((_, index) => (
+          {Array.from({ length: 10 }).map((_, index) => (
             <ProductCard key={index} />
           ))}
-        </div>
-
-        <div className='absolute hidden top-0 -right-9 z-30 pb-16 opacity-0 group-hover:opacity-100 h-full md:flex justify-center items-center transition-opacity duration-700'>
-          {showRight && (
-            <Button
-              variant='default'
-              className='py-6 px-1 rounded-full bg-background hover:bg-background/90 text-foreground'
-              onClick={scrollRight}>
-              <ChevronRight size={40} strokeWidth={1} />
-            </Button>
-          )}
         </div>
       </div>
     </div>
