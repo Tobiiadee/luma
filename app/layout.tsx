@@ -1,16 +1,10 @@
 /** @format */
 
-import DeployButton from "@/modules/common/components/deploy-button";
-import { EnvVarWarning } from "@/modules/common/components/env-var-warning";
-import HeaderAuth from "@/modules/common/components/header-auth";
-import { ThemeSwitcher } from "@/modules/common/components/theme-switcher";
-import { hasEnvVars } from "@/utils/supabase/check-env-vars";
-import { GeistSans } from "geist/font/sans";
 import { ThemeProvider } from "next-themes";
-import Link from "next/link";
 import "@fontsource-variable/inter";
 import "@fontsource-variable/nunito";
 import "./globals.css";
+import { Toaster } from "@/modules/common/ui/sonner";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -37,6 +31,7 @@ export default function RootLayout({
           disableTransitionOnChange>
           <div id='overlay' />
           {children}
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

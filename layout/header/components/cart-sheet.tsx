@@ -14,21 +14,24 @@ import {
 import { ShoppingCart } from "lucide-react";
 import { Text } from "@/modules/common/ui/text";
 import SheetCart from "@/layout/components/sheet-cart";
-import { Button } from "@/modules/common/ui/button";
 import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
+import useCartStore from "@/modules/store/cart-store";
 
 export default function CartSheet() {
   const { push } = useRouter();
+  const cartItems = useCartStore((state) => state.cartItems);
 
   return (
     <Sheet>
-      <SheetTrigger className='flex items-center space-x-2 hover:bg-transparent hover:text-background'>
+      <SheetTrigger className='relative flex items-center space-x-2 hover:bg-transparent hover:text-background'>
         <ShoppingCart size={20} />
         <Text variant={"p"} className='hidden md:block'>
           Cart
         </Text>
+        {cartItems.length >= 0 && <Badge className="absolute left-1.5 -top-1" />}
       </SheetTrigger>
-      <SheetContent className='flex flex-col w-full'>
+      <SheetContent className='flex flex-col sm:min-w-[70%] lg:min-w-[35%]'>
         <SheetHeader>
           <SheetTitle>
             <Text variant={"h4"} className='font-semibold'>
@@ -51,5 +54,11 @@ export default function CartSheet() {
         </SheetFooter>
       </SheetContent>
     </Sheet>
+  );
+}
+
+export function Badge({className}: {className?: string}) {
+  return (
+    <div className={cn(className, 'absolute w-1.5 aspect-square rounded-full bg-red-600')} />
   );
 }

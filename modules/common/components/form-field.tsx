@@ -11,7 +11,6 @@ interface FormFieldProps {
   placeholder: string;
   description?: string;
   type?: string;
-  // Optionally, add more fields as needed (like validation rules, errors, etc.)
 }
 
 // Create the reusable component

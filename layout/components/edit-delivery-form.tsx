@@ -9,6 +9,8 @@ import { Button } from "@/modules/common/ui/button";
 import { Form } from "@/modules/common/ui/form";
 import FormField from "@/modules/common/components/form-field";
 import { Text } from "@/modules/common/ui/text";
+import { DeliveryInfoType } from "./checkout-delivery-info";
+
 
 // Define the validation schema using Zod
 const formSchema = z.object({
@@ -21,12 +23,18 @@ const formSchema = z.object({
   email: z.string(),
 });
 
-export function DeliveryForm() {
+export function EditDeliveryForm({deliveryInfo}: {deliveryInfo: DeliveryInfoType}) {
   // Initialize the form using react-hook-form and zodResolver
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      firstName: "",
+      firstName: deliveryInfo.firstName,
+      lastName: deliveryInfo.lastName,
+      address: deliveryInfo.address,
+      city_town: deliveryInfo.city_town,
+      zipCode: deliveryInfo.zipCode,
+      mobile: deliveryInfo.mobile,
+      email: deliveryInfo.email,
     },
   });
 

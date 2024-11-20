@@ -53,7 +53,7 @@ function DetailsReviewTab() {
           </TabsTrigger>
         </TabsList>
         <TabsContent value='details' className='w-full'>
-          <ProductDetails />
+          <ProductDescription />
         </TabsContent>
         <TabsContent value='reviews' className='w-full'>
           <ReviewContent />
@@ -63,7 +63,7 @@ function DetailsReviewTab() {
   );
 }
 
-function ProductDetails() {
+function ProductDescription() {
   return (
     <Text variant={"p"} className='sm:w-[80%]'>
       NIVEA MEN Dry Impact anti-perspirant deodorant offers you powerful
@@ -168,35 +168,11 @@ function ReviewItem() {
           dolor, id euismod augue tortor quis ligula.
         </Text>
 
-        {/* <div className='flex items-center space-x-4'>
-          <Button
-            variant={"ghost"}
-            className='hover:bg-transparent hover:text-background/70 text-background/50 p-0 min-h-0'>
-            <Text variant={"p"} className='font-semibold'>
-              Reply
-            </Text>
-          </Button>
-
-          <div className='flex space-x-2 items-center'>
-            <Button
-              variant={"ghost"}
-              className='hover:bg-transparent hover:text-accent p-0 min-h-0'>
-              <ThumbsUp size={14} strokeWidth={1.5} />
-            </Button>
-
-            <Text variant={"p"}>4</Text>
-          </div>
-
-          <div className='flex space-x-2 items-center'>
-            <Button
-              variant={"ghost"}
-              className='hover:bg-transparent hover:text-accent p-0 min-h-0'>
-              <ThumbsDown size={14} strokeWidth={1.5} />
-            </Button>
-
-            <Text variant={"p"}>4</Text>
-          </div>
-        </div> */}
+        <div className='w-full flex justify-end'>
+          <Text variant={"p"} className='text-background/40 text-[12px]'>
+            18-11-2020
+          </Text>
+        </div>
       </div>
     </div>
   );

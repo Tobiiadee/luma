@@ -17,13 +17,13 @@ export default function ProductCard() {
       <div className='w-full sm:max-w-[13rem] h-max shadow-md rounded-lg p-2 overflow-hidden'>
         <div
           onClick={() => push("/products/1")}
-          className='relative w-full aspect-square active:scale-95 transition rounded-md overflow-hidden'>
+          className='relative w-full aspect-square group transition rounded-md overflow-hidden'>
           <Image
             src={"/images/item1.jpg"}
             alt=''
             priority
             fill
-            className='object-cover cursor-pointer'
+            className='object-cover cursor-pointer group-hover:scale-110 transition'
           />
         </div>
 

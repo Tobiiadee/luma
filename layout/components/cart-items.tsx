@@ -4,62 +4,84 @@
 
 import { Button } from "@/modules/common/ui/button";
 import { Checkbox } from "@/modules/common/ui/checkbox";
+import { Separator } from "@/modules/common/ui/separator";
 import { Text } from "@/modules/common/ui/text";
+import useCartStore from "@/modules/store/cart-store";
+import useCheckoutStore from "@/modules/store/checkout-store";
+import { CartItemType } from "@/types";
 import { Minus, Plus, Trash } from "lucide-react";
 import Image from "next/image";
-import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
-const cartItems = [
+const cartItems: CartItemType[] = [
   {
-    id: 1,
+    itemId: 1,
     image: "books.jpg",
     category: "Books",
     title: "The Book",
     type: "Comedy",
     color: "Green",
-    oldPrice: "$10",
-    price: "$5.99",
-    count: 4,
+    oldPrice: "10",
+    price: "5.99",
+    quantity: 4,
   },
   {
-    id: 2,
+    itemId: 2,
     image: "fashion.jpg",
     category: "Fashion",
     title: "D&G",
     type: "null",
     color: "Red",
-    oldPrice: "$300",
-    price: "$259.99",
-    count: 2,
+    oldPrice: "300",
+    price: "259.99",
+    quantity: 2,
   },
   {
-    id: 3,
+    itemId: 3,
     image: "sneakers.jpg",
     category: "Sneakers",
     title: "Air Jordan",
     type: "Sports",
     color: "Blue",
-    oldPrice: "$200",
-    price: "$159",
-    count: 1,
+    oldPrice: "200",
+    price: "159",
+    quantity: 1,
   },
   {
-    id: 4,
+    itemId: 4,
     image: "furniture.jpg",
     title: "Sofa",
     category: "Furniture",
     type: "null",
     color: "Green",
-    oldPrice: "$400",
-    price: "$329.99",
-    count: 1,
+    oldPrice: "400",
+    price: "329.99",
+    quantity: 1,
   },
 ];
 
 export default function CartItems() {
+  const cartTotal = cartItems.reduce(
+    (acc, item) => acc + Number(item.price.replace("$", "")),
+    0
+  );
 
-  const cartTotal = cartItems.reduce((acc, item) => acc + Number(item.price.replace("$", "")), 0);
+  const setCartItems = useCartStore((state) => state.setCartItems);
+
+  useEffect(() => {
+    setCartItems(cartItems);
+  }, []);
+
   const noOfItems = cartItems.length;
+  const itemsDetails = cartItems.map((item) => ({
+    title: item.title,
+    price: item.price,
+    image: item.image,
+    quantity: item.quantity,
+    color: item.color,
+    id: item.itemId,
+  }));
 
   return (
     <div className='grid grid-cols-1 lg:grid-cols-3 lg:gap-4 w-full'>
@@ -68,31 +90,37 @@ export default function CartItems() {
         <div className='flex flex-col space-y-6'>
           {cartItems.map((item) => (
             <CartItem
-              key={item.id}
+              key={item.itemId}
               category={item.category}
-              imageSrc={item.image}
+              image={item.image}
               title={item.title}
               type={item.type}
               color={item.color}
               oldPrice={item.oldPrice}
               price={item.price}
-              itemCount={item.count}
-              id={item.id}
+              quantity={item.quantity}
+              itemId={item.itemId}
             />
           ))}
         </div>
       </div>
 
-      <CartTotal cartTotal={cartTotal} items={noOfItems} />
+      <CartTotal
+        itemsDetails={itemsDetails}
+        cartTotal={cartTotal}
+        items={noOfItems}
+      />
     </div>
   );
 }
 
 function CartSelectAll() {
+  const { setIsSelected } = useCartStore();
+
   return (
     <div className='flex justify-between items-center border rounded-lg p-4 '>
       <div className='flex  items-center space-x-2'>
-        <Checkbox id={"all"} />
+        <Checkbox id={"all"} onClick={() => setIsSelected(true)} />
         <label
           htmlFor={"all"}
           className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'>
@@ -107,30 +135,20 @@ function CartSelectAll() {
   );
 }
 
-interface CartItemProps {
-  category: string;
-  imageSrc: string;
-  title: string;
-  type: string;
-  color: string;
-  oldPrice: string;
-  price: string;
-  itemCount: number;
-  id: number;
-}
-
 function CartItem({
   title,
   category,
-  imageSrc,
+  image,
   type,
   color,
   oldPrice,
   price,
-  itemCount,
-  id,
-}: CartItemProps) {
-  const [count, setCount] = useState(itemCount);
+  quantity,
+  itemId,
+}: CartItemType) {
+  const { push } = useRouter();
+  const [count, setCount] = useState(quantity);
+  const isSelected = useCartStore((state) => state.isSelected);
 
   const addCountHandler = () => {
     if (count === 7) return;
@@ -145,14 +163,14 @@ function CartItem({
     <div className='border p-4 flex flex-col space-y-4 md:space-y-0 md:flex-row justify-between rounded-lg w-full'>
       <div>
         <div className='flex items-start space-x-2'>
-          <Checkbox id={title} />
-          <label
-            htmlFor={title}
-            className='flex items-start space-x-4 cursor-pointer'>
+          <Checkbox id={title + itemId} />
+          {/* <label htmlFor={title + itemId} className=''></label> */}
+
+          <div onClick={() => push(`/products/${itemId}`)} className='flex items-start space-x-4 w-full cursor-pointer'>
             <div>
               <div className='w-16 aspect-square relative flex items-center justify-center overflow-hidden rounded'>
                 <Image
-                  src={`/images/${imageSrc}`}
+                  src={`/images/${image}`}
                   alt={title}
                   fill
                   className='object-cover'
@@ -205,7 +223,7 @@ function CartItem({
                 </div>
               </div>
             </div>
-          </label>
+          </div>
         </div>
       </div>
 
@@ -214,10 +232,10 @@ function CartItem({
           <Text
             variant={"p"}
             className='text-[12px] line-through font-bold text-background/50'>
-            {oldPrice}
+            ${oldPrice}
           </Text>
           <Text variant={"p"} className='font-bold self-end'>
-            {price}
+            ${price}
           </Text>
         </div>
 
@@ -247,25 +265,60 @@ function CartItem({
   );
 }
 
-function CartTotal( { cartTotal, items }: { cartTotal: number, items: number }) {
+function CartTotal({
+  cartTotal,
+  items,
+  itemsDetails,
+}: {
+  cartTotal: number;
+  items: number;
+  itemsDetails: {
+    title: string;
+    price: string;
+    image: string;
+    quantity: number;
+    id: number;
+    color: string;
+  }[];
+}) {
+  const router = useRouter();
+  const setCheckoutItems = useCheckoutStore((state) => state.setCheckoutItems);
+  const setSumTotal = useCheckoutStore((state) => state.setSumTotal);
+
+  const onSendToCheckout = () => {
+    setCheckoutItems(itemsDetails);
+    setSumTotal(cartTotal);
+    router.push("/checkout");
+  };
+
   return (
-    <div className='border p-4 flex flex-col rounded-lg w-full min-h-64 md:h-[50%] mt-6 lg:mt-0 relative'>
+    <div className='border p-4 flex flex-col space-y-4 rounded-lg w-full min-h-64 md:h-[50%] mt-6 lg:mt-0 relative'>
       <Text variant={"h3"} className=''>
         Summary Order
       </Text>
-      <div className='flex flex-col space-y-4 absolute bottom-4 left-0 w-full px-4'>
+
+      <div className='flex flex-col space-y-2'>
+        {itemsDetails.map((item, index) => (
+          <ListTotalItem key={index} name={item.title} price={item.price} />
+        ))}
+      </div>
+
+      <div className='flex flex-col space-y-4 w-full'>
+        <Separator />
         <div className='w-full flex justify-between items-center'>
           <Text variant={"h5"} className='text-background/50'>
             SumTotal:
           </Text>
-          <Text variant={"h5"} className=''>
+          <Text variant={"h5"} className='font-semibold'>
             ${cartTotal}
           </Text>
         </div>
 
         <div className='w-full flex justify-center'>
-          <Button className='w-full py-2 rounded-md bg-background hover:bg-background/90 text-foreground'>
-            Buy Now (
+          <Button
+            onClick={onSendToCheckout}
+            className='w-full py-2 rounded-md bg-background hover:bg-background/90 text-foreground'>
+            Checkout (
             <span>
               <Text variant={"p"}>0{items}</Text>
             </span>
@@ -273,6 +326,21 @@ function CartTotal( { cartTotal, items }: { cartTotal: number, items: number }) 
           </Button>
         </div>
       </div>
+    </div>
+  );
+}
+
+function ListTotalItem({
+  name,
+  price,
+}: {
+  name: string;
+  price: number | string;
+}) {
+  return (
+    <div className='flex items-center justify-between w-full'>
+      <Text variant={"p"}>{name}</Text>
+      <Text variant={"p"}>{price}</Text>
     </div>
   );
 }

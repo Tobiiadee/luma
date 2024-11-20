@@ -2,21 +2,26 @@
 
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { CheckoutBreadcrumb } from "./checkout-breadcrumb";
 import { Separator } from "@/modules/common/ui/separator";
 import { Text } from "@/modules/common/ui/text";
 import Image from "next/image";
-import { Button } from "@/modules/common/ui/button";
-import { Trash } from "lucide-react";
-import { Checkbox } from "@/modules/common/ui/checkbox";
-import { DeliveryForm } from "./delivery-form";
 import { Label } from "@/modules/common/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/modules/common/ui/radio-group";
 import OrderSummaryForm from "./order-summary-form";
 import { MasterCard, VisaCard } from "@/lib/assets/svgs";
+import { DeliveryInfo } from "./checkout-delivery-info";
+import useCheckoutStore from "@/modules/store/checkout-store";
+
+export const metadata = {
+  title: "Checkout - Your Store",
+  description: "Review your items and shipping information before completing your purchase.",
+};
 
 export default function Checkout() {
+  const checkoutItems = useCheckoutStore((state) => state.checkoutItems);
+
   return (
     <div className='flex flex-col space-y-10 relative'>
       <div className='flex flex-col space-y-2'>
@@ -31,7 +36,19 @@ export default function Checkout() {
 
         <div className='grid grid-cols-1 lg:grid-cols-3 lg:gap-6 w-full'>
           <div className='col-span-2 flex flex-col space-y-6'>
-            <ItemsForShipping />
+            <div className='flex flex-col space-y-4'>
+              {checkoutItems.map((item) => (
+                <ItemForShipping
+                  key={item.id}
+                  img={item.image}
+                  title={item.title}
+                  price={item.price}
+                  color={item.color}
+                  quantity={item.quantity}
+                  size={item.size}
+                />
+              ))}
+            </div>
             <DeliveryInfo />
           </div>
 
@@ -44,7 +61,7 @@ export default function Checkout() {
 
 function OrderSummary() {
   return (
-    <div className='lg:border lg:p-4 rounded-lg flex flex-col space-y-4 mt-10 lg:mt-0'>
+    <div className='lg:border h-max lg:p-4 rounded-lg flex flex-col space-y-4 mt-10 lg:mt-0'>
       <Text variant={"h3"} className=''>
         Order Summary
       </Text>
@@ -82,21 +99,27 @@ function OrderSummary() {
   );
 }
 
-function ItemsForShipping() {
-  return (
-    <div className='flex flex-col space-y-4'>
-      <ItemForShipping />
-    </div>
-  );
-}
-
-function ItemForShipping() {
+function ItemForShipping({
+  img,
+  title,
+  price,
+  color,
+  quantity,
+  size,
+}: {
+  img: string;
+  title: string;
+  price: string;
+  color: string;
+  quantity: number;
+  size?: string;
+}) {
   return (
     <div className='border p-4 rounded-lg flex space-x-4 sm:space-x-10 items-center'>
       <div className='flex items-center'>
-        <div className='relative w-24 lg:w-28 aspect-square rounded-md flex justify-center items-center overflow-hidden'>
+        <div className='relative w-20 aspect-square rounded-md flex justify-center items-center overflow-hidden'>
           <Image
-            src={"/images/item1.jpg"}
+            src={`/images/${img}`}
             alt=''
             priority
             fill
@@ -107,82 +130,26 @@ function ItemForShipping() {
 
       <div className='flex items-center justify-between w-full'>
         <div className='flex flex-col space-y-2'>
-          <Text variant={"h3"}>Airpod Pro</Text>
+          <Text variant={"h3"}>{title}</Text>
           <Text variant={"p"} className='text-background/60 font-semibold'>
-            Color: Black
+            Color: {color}
           </Text>
         </div>
 
         <div className='flex flex-col space-y-2'>
-          <Text variant={"h3"}>$509.99</Text>
-          <Text variant={"p"} className='text-background/60 font-semibold'>
-            Quantity: 1
-          </Text>
+          <Text variant={"h3"} className="text-end">${price}</Text>
+          <div className='flex space-x-4 items-center'>
+            {size && (
+              <Text variant={"p"} className='text-background/60 font-semibold'>
+                Size: {size}
+              </Text>
+            )}
+            <Text variant={"p"} className='text-background/60 font-semibold'>
+              Quantity: {quantity}
+            </Text>
+          </div>
         </div>
       </div>
-    </div>
-  );
-}
-
-function DeliveryInfo() {
-  const [returningCustomer, setReturningCustomer] = useState(false);
-
-  const handleReturningCustomer = () => {
-    setReturningCustomer(!returningCustomer); // Set state based on checkbox state
-  };
-
-  return (
-    <div className='flex flex-col space-y-6 w-full'>
-      <div className='flex items-center space-x-2'>
-        <Checkbox onClick={handleReturningCustomer} id='delivery' />
-        <label
-          htmlFor='delivery'
-          className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'>
-          <Text variant={"p"}>Returning customer?</Text>
-        </label>
-      </div>
-      <div className='lg:border lg:p-4 rounded-lg flex flex-col space-y-6 w-full'>
-        <div className='flex items-center justify-between w-full'>
-          <Text variant={"h3"} className=''>
-            Delivery Information
-          </Text>
-
-          {returningCustomer ? (
-            <Button className='bg-background/10 hover:bg-background/20 font-semibold rounded-lg text-background'>
-              <Text variant={"p"} className='font-medium'>
-                Edit
-              </Text>
-            </Button>
-          ) : (
-            <Button className='bg-background/10 hover:bg-background/20 font-semibold rounded-lg text-background'>
-              <Text variant={"p"} className='font-medium'>
-                Save Information
-              </Text>
-            </Button>
-          )}
-        </div>
-
-        {returningCustomer ? <ReturningCustomer /> : <DeliveryForm />}
-      </div>
-    </div>
-  );
-}
-
-function ReturningCustomer() {
-  return (
-    <div className='flex flex-col space-y-1'>
-      <Text variant={"p"} className='font-semibold text-background/60'>
-        John Doe
-      </Text>
-      <Text variant={"p"} className='font-semibold text-background/60'>
-        13 Mercyland Estate
-      </Text>
-      <Text variant={"p"} className='font-semibold text-background/60'>
-        +234 567 8901
-      </Text>
-      <Text variant={"p"} className='font-semibold text-background/60'>
-        you@example.com
-      </Text>
     </div>
   );
 }
